@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: de_user
+      POSTGRES_PASSWORD: de_password
+      POSTGRES_DB: warehouse
+    ports:
+      - "5432:5432"
+    volumes:
+      - de_postgres_data:/var/lib/postgresql/data
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.9.0
+    working_dir: /usr/app/de_warehouse
+    volumes:
+      - ./dbt:/usr/app
+      - ./dbt/.dbt:/root/.dbt
+    entrypoint: ["/bin/sh", "-c", "sleep infinity"]
+    container_name: dbt
+
+  airflow:
+    image: apache/airflow:2.10.5
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/airflow_home:/opt/airflow
+      - ./dbt:/usr/app/dbt
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: standalone
+
+volumes:
+  de_postgres_data:
+    external: true
+    name: 126e5ade99affc7f5580731c1bf7eca524ad5d9ad040a9484d74500d6ff9ab05

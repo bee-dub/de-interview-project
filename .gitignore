@@ -1,0 +1,36 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Secrets / local credentials
+standalone_admin_password.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Airflow runtime files
+airflow/airflow_home/logs/
+airflow/airflow_home/airflow.db
+
+# Airflow local configuration / runtime state
+airflow/airflow_home/
+
+# PostgreSQL / database data
+postgres_data/
+pgdata/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# dbt runtime files
+dbt/logs/
+
+# dbt local configuration / credentials
+dbt/.dbt/
+
